@@ -1,0 +1,6 @@
+@CryptoGateway.PublicApi_HostAddress = http://localhost:5085
+
+GET {{CryptoGateway.PublicApi_HostAddress}}/start/index
+Accept: application/json
+
+###

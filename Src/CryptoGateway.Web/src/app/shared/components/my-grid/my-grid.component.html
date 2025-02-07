@@ -1,0 +1,190 @@
+
+<div *ngIf="responsive">
+  <div class="tableFixHead table-responsive d-none d-sm-block">
+    <table class="table table-striped" [ngClass]="selectable ? 'table-hover' : ''">
+      <thead>
+        <tr>
+          <th *ngIf="showHyperLink"></th>
+          <th *ngIf="showCustomAction" class="text-center"></th>
+          <th *ngIf="showAction"></th>
+          <th scope="col" class="text-center" *ngIf="showIndex">#</th>
+          <th scope="col" class="text-center" *ngFor="let column of columns" [ngStyle]="{'width': (column.isLong) ? '100px' : ''}">{{ column.name }}</th>
+          <th scope="col" class="text-center" *ngIf="showbuttons"></th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of rows; index as i; trackBy:identify" (click)="onClick(row, i)" [ngClass]="rowSelectedIndex === i ? 'table-info' : ''">
+        <td class="text-center align-middle danger" *ngIf="showHyperLink">
+          <a (click)="hyperLinkClick(row)">{{ hyperLinkText }}</a>
+        </td>        
+        <td class="text-center align-middle" *ngIf="showCustomAction">
+          <a (click)="copyAction(row)" *ngIf="copyCondition" ngbTooltip="Copy Link"><span class="material-icons" role="button">content_copy</span></a>
+        </td>
+        <td class="text-center align-middle" *ngIf="showAction">
+          <a ngbTooltip="Edit" (click)="edit(row)" *ngIf="condition(row)"><span class="material-icons-outlined text-info" role="button">edit</span></a>
+          <a ngbTooltip="Delete" (click)="delete(row)" *ngIf="condition(row)"><span class="material-icons-outlined text-danger" role="button">delete</span></a>
+        </td>      
+        <td class="text-center align-middle font-weight-light" scope="row" *ngIf="showIndex">{{ i + 1 + pagination.pageSize * (pagination.currentPage - 1) }}</td>
+        <td class="text-center align-middle font-weight-light" *ngFor="let column of columns">
+          <img class="img-thumbnail shadow" src="{{ row[column.prop] }}" width="{{column.iconSize}}" height="{{column.iconSize}}" *ngIf="!column.isLong && column.isIcon && !column.additionalLabel?.has && !column.additionalLineText?.has">
+          <span [dir]="column.direction" *ngIf="!column.isLong && !column.isIcon && !column.isHyperLink && !column.additionalLabel?.has && !column.additionalLineText?.has">{{ column.isDecimal ? (row[column.prop] | number: column.numberPipe) : row[column.prop] }}</span>
+          <p class="text-left" *ngIf="!column.isLong && column.isIcon && !column.isHyperLink && column.additionalLabel?.has && !column.additionalLineText?.has" style="width: 90px;"> 
+            <img src="{{ row[column.prop] }}" width="{{column.iconSize}}" height="{{column.iconSize}}" class="img-thumbnail shadow" *ngIf="column.isIcon" style="float: right;" style.height.px="{{column.iconSize}}">
+            <b class="text-danger mr-1" style="font-size: x-small"> {{ (column.additionalLabel.condition(row)) ? column.additionalLabel.text : '' }} </b>
+          </p>
+          <span [dir]="column.direction" *ngIf="!column.isIcon && !column.isHyperLink && !column.additionalLabel?.has && column.additionalLineText?.has"> 
+            <span>{{ column.isDecimal ? (row[column.prop] | number: column.numberPipe) : row[column.prop] }}</span>
+            <br />            
+            <span [dir]="column.direction" style="color: slategray; font-size: small;"> {{ row[column.additionalLineText.columnName] }} </span>
+          </span>  
+          <span *ngIf="column.isLong">
+            <span>{{(row[column.prop] | slice:0:6) + (row[column.prop].length > 6 ? '...' : '')}}</span>
+            <a (click)="copyLongTextAction(row[column.prop])" *ngIf="copyLongText" ngbTooltip="Copy">
+              <span class="material-icons" style="font-size: small; vertical-align: middle;margin-left: 3px;" role="button">content_copy</span>
+            </a>
+          </span>        
+          <a href="{{ row[column.prop] }}" *ngIf="column.isHyperLink && row[column.prop]" target="_blank">{{ column.hyperLinkText }}</a>
+        </td>
+        <td class="text-center align-middle font-weight-light" *ngIf="showbuttons">
+          <a class="link-info mr-1" (click)="btn1Click(row)" *ngIf="btn1condition(row)"> {{ btn1Text }} </a>      
+          <a class="link-info mr-1" (click)="btn2Click(row)" *ngIf="btn2condition(row)"> {{ btn2Text }} </a>      
+          <b class="text-danger" *ngIf="!(btn1condition(row) || btn2condition(row))"> {{ btnFalseConditionText }} </b>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card d-block d-sm-none" *ngFor="let row of rows; index as i; trackBy:identify">
+    <ul class="list-group">
+      <li class="list-group-item font-weight-light" *ngIf="showIndex"><b>Row:</b> {{ i + 1 + pagination.pageSize *
+        (pagination.currentPage - 1) }}</li>
+      <li class="list-group-item font-weight-light" *ngFor="let column of columns">
+        <!-- <img src="{{ row[column.prop] }}" width="{{column.iconSize}}" height="{{column.iconSize}}" *ngIf="column.isIcon && !column.additionalLabel?.has && !column.additionalLineText?.has">
+        <span [dir]="column.direction" *ngIf="!column.isIcon && !column.isHyperLink && !column.additionalLabel?.has && !column.additionalLineText?.has">{{ column.isDecimal ? (row[column.prop] | number: column.numberPipe) : row[column.prop] }}</span>
+                  -->
+        <img class="img-thumbnail shadow" src="{{ row[column.prop] }}" width="38" height="38"
+          *ngIf="column.isIcon && !column.additionalLabel?.has && !column.additionalLineText?.has">
+        <span
+          *ngIf="!column.isIcon && !column.isHyperLink && !column.additionalLabel?.has && !column.additionalLineText?.has"><b>{{
+            column.name }}:&nbsp;</b>
+          <span [dir]="column.direction"> {{ column.isDecimal ? (row[column.prop] | number: column.numberPipe) : row[column.prop] }}
+          </span>
+        </span>
+
+        <span
+          *ngIf="!column.isIcon && !column.isHyperLink && !column.additionalLabel?.has && column.additionalLineText?.has">
+          <b>{{ column.name }}:&nbsp;</b>
+          <span>{{ column.isDecimal ? (row[column.prop] | number: column.numberPipe) :
+            (column.removeParentheses ? removeParentheses(row[column.prop]) : row[column.prop]) }} - {{
+            row[column.additionalLineText.columnName] }}</span>
+          <!-- <span style="color: slategray; font-size: small;"> {{ row[column.additionalLineText.columnName] }} </span> -->
+        </span>
+        <span class="text-left"
+          *ngIf="column.isIcon && !column.isHyperLink && column.additionalLabel?.has && !column.additionalLineText?.has">
+          <img class="img-thumbnail shadow" src="{{ row[column.prop] }}" width="38" height="38" *ngIf="column.isIcon" [style.height.px]="38">
+          <b class="text-danger mr-1" style="font-size: x-small"> {{ (column.additionalLabel.condition(row)) ?
+            column.additionalLabel.text : '' }} </b>
+        </span>
+        <a href="{{ row[column.prop] }}" *ngIf="column.isHyperLink && row[column.prop]" target="_blank">{{
+          column.hyperLinkText }}</a>
+      </li>
+      <li class="list-group-item text-center align-middle danger" *ngIf="showHyperLink">
+        <a (click)="hyperLinkClick(row)">{{ hyperLinkText }}</a>
+      </li>
+      <li class="list-group-item" *ngIf="showAction && condition(row)">
+        <a ngbTooltip="Edit" (click)="edit(row)" *ngIf="condition(row)"><span class="material-icons-outlined text-info" role="button">edit</span></a>
+        <a ngbTooltip="Delete" (click)="delete(row)" *ngIf="condition(row)"><span class="material-icons-outlined text-danger" role="button">delete</span></a>
+      </li>
+      <li class="list-group-item align-middle font-weight-light" *ngIf="showCustomAction">
+        <a (click)="copyAction(row)" *ngIf="copyCondition" ngbTooltip="Copy Link"><span class="material-icons" role="button">content_copy</span></a>
+      </li>
+      <li class="list-group-item text-center align-middle font-weight-light" *ngIf="showbuttons">
+        <button type="button" class="btn btn-outline-primary mr-1 mt-1 mb-1" style="width: 110px; margin-top: 1px;"
+          (click)="btn1Click(row)" *ngIf="btn1condition(row)">
+          {{ btn1Text }}
+        </button>
+        <button type="button" class="btn btn-outline-primary mr-1 mt-1 mb-1" style="width: 110px; margin-top: 1px;"
+          (click)="btn2Click(row)" *ngIf="btn2condition(row)">
+          {{ btn2Text }}
+        </button>
+        <b class="text-danger" *ngIf="!(btn1condition(row) || btn2condition(row))"> {{ btnFalseConditionText }} </b>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="!responsive">
+  <div class="tableFixHead table-responsive">
+    <table class="table table-striped" [ngClass]="selectable ? 'table-hover' : ''">
+      <thead>
+        <tr>
+          <th *ngIf="showHyperLink"></th>
+          <th *ngIf="showAction"></th>
+          <th scope="col" class="text-center" *ngIf="showIndex">#</th>
+          <th scope="col" class="text-center" *ngFor="let column of columns">{{ column.name }}</th>
+          <th scope="col" class="text-center" *ngIf="showbuttons"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows; index as i; trackBy:identify" (click)="onClick(row, i)"
+          [ngClass]="rowSelectedIndex === i ? 'table-info' : ''">
+          <td class="text-center align-middle danger" *ngIf="showHyperLink">
+            <a (click)="hyperLinkClick(row)">{{ hyperLinkText }}</a>
+          </td>
+          <td class="text-center align-middle" *ngIf="showAction">
+            <a (click)="edit(row)" *ngIf="condition(row)"><i class="ft-edit-2 info font-medium-1 mr-1"></i></a>
+            <a (click)="delete(row)" *ngIf="condition(row)"><i class="ft-x danger font-medium-1 mr-1"></i></a>
+          </td>
+          <td class="text-center align-middle font-weight-light" scope="row" *ngIf="showIndex">{{ i + 1 +
+            pagination.pageSize * (pagination.currentPage - 1) }}</td>
+          <td class="text-center align-middle font-weight-light" *ngFor="let column of columns">
+            <img class="img-thumbnail shadow" src="{{ row[column.prop] }}" width="{{column.iconSize}}" height="{{column.iconSize}}"
+              *ngIf="column.isIcon && !column.additionalLabel?.has && !column.additionalLineText?.has">
+            <span [dir]="column.direction"
+              *ngIf="!column.isIcon && !column.isHyperLink && !column.additionalLabel?.has && !column.additionalLineText?.has">{{
+              column.isDecimal ? (row[column.prop] | number: column.numberPipe) : row[column.prop] }}</span>
+            <p class="text-left"
+              *ngIf="column.isIcon && !column.isHyperLink && column.additionalLabel?.has && !column.additionalLineText?.has">
+              <img src="{{ row[column.prop] }}" width="{{column.iconSize}}" height="{{column.iconSize}}"
+                class="img-thumbnail shadow" *ngIf="column.isIcon" style="float: right;"
+                style.height.px="{{column.iconSize}}">
+              <b class="text-danger mr-1" style="font-size: x-small"> {{ (column.additionalLabel.condition(row)) ?
+                column.additionalLabel.text : '' }} </b>
+            </p>
+            <span [dir]="column.direction"
+              *ngIf="!column.isIcon && !column.isHyperLink && !column.additionalLabel?.has && column.additionalLineText?.has">
+              <span>{{ column.isDecimal ? (row[column.prop] | number: column.numberPipe) : row[column.prop] }}</span>
+              <br />
+              <span style="color: slategray; font-size: small;"> {{ row[column.additionalLineText.columnName] }} </span>
+            </span>
+            <a href="{{ row[column.prop] }}" *ngIf="column.isHyperLink && row[column.prop]" target="_blank">{{
+              column.hyperLinkText }}</a>
+          </td>
+          <td class="text-center align-middle font-weight-light" *ngIf="showbuttons">
+            <a class="link-info mr-1" (click)="btn1Click(row)" *ngIf="btn1condition(row)"> {{ btn1Text }} </a>
+            <a class="link-info mr-1" (click)="btn2Click(row)" *ngIf="btn2condition(row)"> {{ btn2Text }} </a>
+            <b class="text-danger" *ngIf="!(btn1condition(row) || btn2condition(row))"> {{ btnFalseConditionText }} </b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <div class="d-flex justify-content-center p-2">
+  <ngb-pagination [collectionSize]="pagination.collectionSize" [(page)]="pagination.currentPage"
+    [pageSize]="pagination.pageSize" [maxSize]="paginationMaxSize" [rotate]="true" [boundaryLinks]="true"
+    (pageChange)="refresh($event)" *ngIf="pagination.collectionSize > 0">
+  </ngb-pagination>
+</div>
+<p class="text-center" *ngIf="pagination.collectionSize > 0">تعداد کل رکوردها: {{ pagination.collectionSize }}</p> -->
+<mat-paginator #paginator
+               [length]="pagination.totalCount"
+               [pageIndex]="pagination.currentPage - 1"
+               [pageSize]="pagination.pageSize"
+               [pageSizeOptions]="[5, 10, 25, 100]"
+               aria-label="Select page"
+               (page)="refresh($event)"
+               showFirstLastButtons
+               *ngIf="pagination && pagination.collectionSize > 0">
+</mat-paginator>

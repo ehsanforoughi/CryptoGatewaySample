@@ -1,0 +1,80 @@
+<section class="content">
+    <div class="content-block">
+      @for (breadscrum of breadscrums; track breadscrum) {
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+        </app-breadcrumb>
+      </div>
+      }
+      <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="card">
+            <div class="header">
+              <h2>Fiat Payouts</h2>
+            </div>
+            <div class="body">
+              <form [formGroup]="formGroup" (ngSubmit)="onSubmitClick()">
+                <div class="example-container">
+                  <input type="hidden" name="id" formControlName="id">
+                  <div class="mb-4">
+                    <span><strong>Real Balance:</strong> IRR {{IrrRealBalance | number: '1.0-0'}}</span>
+                    &nbsp;&nbsp;&nbsp;
+                    <span><strong>Available Balance:</strong> IRR {{IrrAvailableBalance | number: '1.0-0'}}</span>
+                    <a (click)="creditRefresh()" style="cursor: pointer; vertical-align: middle;"><span class="material-symbols-outlined text-primary m-2">sync</span></a>
+                  </div>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Value</mat-label>
+                    <mat-icon matSuffix>money</mat-icon>
+                    <input matInput required formControlName="value" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0, align: 'left' }">
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>To Bank</mat-label>
+                    <mat-select formControlName="bankType" name="bankType" required (selectionChange)="onBankChanged($event)">
+                      <mat-option>Please select a bank</mat-option>
+                      @for (bType of bankTypes; track bType) {
+                        <mat-option [value]="bType.bankAccountId">{{bType.selectTitle}}</mat-option>
+                      }
+                    </mat-select>
+                    <!-- {{ formGroup.get('message') }} -->
+                    <!-- @if (bankTypes.bankType.hasError('required')) {
+                      <mat-error>Please choose a bank</mat-error>
+                    } -->
+                  </mat-form-field>
+
+                  <br>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>To Card Number</mat-label>
+                    <mat-icon matSuffix>credit_card</mat-icon>
+                    <input matInput formControlName="cardNumber" readonly/>
+                  </mat-form-field>
+                  <!-- <br>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Desc</mat-label>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <input matInput formControlName="desc"/>
+                  </mat-form-field>-->
+                </div>
+                <button class="btn-space" mat-raised-button color="primary" style="width: 85px;" *ngIf="!onUpdating"
+                  [disabled]="!formGroup.valid || buttonDisabled">Submit</button>
+                <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+                <div class="alert alert-warning mt-3">
+                  <strong>Warning!</strong> To payout, you must first enter your bank account details from the <a href="/settings/bank-accounts">settings menu</a> to be approved by the support team.
+                </div>                              
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="card">
+            <my-grid [showIndex]="true" [rows]="source" [columns]="columns"
+              (onRefresh)="onRefresh($event)" [pagination]="pagination">
+            </my-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

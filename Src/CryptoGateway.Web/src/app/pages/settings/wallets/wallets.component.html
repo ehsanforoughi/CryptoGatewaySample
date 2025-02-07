@@ -1,0 +1,68 @@
+<section class="content">
+  <div class="content-block">
+    @for (breadscrum of breadscrums; track breadscrum) {
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      </app-breadcrumb>
+    </div>
+    }
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>Wallets</h2>
+          </div>
+          <div class="body">
+            <form [formGroup]="formGroup" (ngSubmit)="onSubmitClick()">
+              <div class="example-container">
+                  <input type="hidden" name="id" formControlName="id">
+
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Title</mat-label>
+                    <mat-icon matSuffix>title</mat-icon>
+                    <input matInput placeholder="EX: My USDT wallet address in Binance" 
+                      formControlName="title" required>
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Wallet Address</mat-label>
+                    <mat-icon matSuffix>wallet</mat-icon>
+                    <input matInput placeholder="EX: 412ECF9C16581647B5BCC90FC3BC5B1E0CE342B816"
+                      formControlName="address" required>
+                  </mat-form-field>                         
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Currency</mat-label>
+                    <mat-icon matSuffix>attach_money</mat-icon>
+                    <input matInput formControlName="currencyType" readonly>
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Network</mat-label>
+                    <mat-icon matSuffix>lan</mat-icon>
+                    <input matInput formControlName="network" readonly>
+                  </mat-form-field>
+              </div>
+              <button class="btn-space" mat-raised-button color="primary" style="width: 85px;" *ngIf="!onUpdating"
+                [disabled]="!formGroup.valid || buttonDisabled">Submit</button>
+              <button class="btn-space" mat-raised-button color="primary" style="width: 85px;" *ngIf="onUpdating"
+                [disabled]="!formGroup.valid || buttonDisabled" (click)="onEditConfirm($event)">Edit</button>
+              <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>  
+              <div class="alert alert-warning mt-3">
+                <strong>Warning!</strong> Your wallet address must be related to Tether and on the TRC10 network. Otherwise, you are responsible for the loss of property.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <my-grid [showIndex]="true" [showAction]="true" [rows]="source" [columns]="columns"
+            [condition]="condition" (onRefresh)="onRefresh($event)" (onEdit)="onEdit($event)"
+            (onDelete)="onDelete($event)" [pagination]="pagination">
+          </my-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,90 @@
+<section class="content">
+    <div class="content-block">
+      @for (breadscrum of breadscrums; track breadscrum) {
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+        </app-breadcrumb>
+      </div>
+      }
+      <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="card">
+            <div class="header">
+              <h2>Bank Accounts</h2>
+            </div>
+            <div class="body">
+              <form [formGroup]="formGroup" (ngSubmit)="onSubmitClick()">
+                <div class="example-container">
+                  <input type="hidden" name="id" formControlName="id">
+
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Title</mat-label>
+                    <mat-icon matSuffix>title</mat-icon>
+                    <input matInput placeholder="EX: My bank account in Melli bank" required
+                      formControlName="title">
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Bank</mat-label>
+                    <mat-select formControlName="bankType" name="bankType" required>
+                      <mat-option>Please select a bank</mat-option>
+                      @for (bType of bankTypes; track bType) {
+                        <mat-option [value]="bType.bankTypeId">{{bType.bankName}}</mat-option>
+                      }
+                    </mat-select>
+                    <!-- {{ formGroup.get('message') }} -->
+                    <!-- @if (bankTypes.bankType.hasError('required')) {
+                      <mat-error>Please choose a bank</mat-error>
+                    } -->
+                  </mat-form-field>
+
+                  <br>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Card Number</mat-label>
+                    <mat-icon matSuffix>credit_card</mat-icon>
+                    <input matInput placeholder="EX: 1111-2222-3333-4444" required 
+                      formControlName="cardNumber" [dropSpecialCharacters]="false" 
+                      mask="0000-0000-0000-0000" />
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Sheba Number</mat-label>
+                    <mat-icon matSuffix>money</mat-icon>
+                    <span matTextPrefix>IR &nbsp;</span>
+                    <input matInput placeholder="EX: IR 062960000000100324200001" required 
+                      formControlName="sheba" [dropSpecialCharacters]="false" 
+                      mask="00 0000 0000 0000 0000 0000 00" />
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Account Number</mat-label>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <input matInput type="number" formControlName="accountNumber"/>
+                  </mat-form-field>                            
+                </div>
+                <button class="btn-space" mat-raised-button color="primary" style="width: 85px;" *ngIf="!onUpdating"
+                  [disabled]="!formGroup.valid || buttonDisabled">Submit</button>
+                <button class="btn-space" mat-raised-button color="primary" style="width: 85px;" *ngIf="onUpdating"
+                  [disabled]="!formGroup.valid || buttonDisabled" (click)="onEditConfirm($event)">Edit</button>
+                <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+                <div class="alert alert-warning mt-3">
+                  <strong>Warning!</strong> Note that the bank details you register belong to you, otherwise your assets will be blocked during withdrawal.
+                </div>                              
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="card">
+            <my-grid [showIndex]="true" [showAction]="true" [rows]="source" [columns]="columns"
+              [condition]="condition" (onRefresh)="onRefresh($event)" (onEdit)="onEdit($event)"
+              [pagination]="pagination" (onDelete)="onDelete($event)">
+            </my-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

@@ -1,0 +1,26 @@
+<section class="content">
+    <div class="content-block">
+      @for (breadscrum of breadscrums; track breadscrum) {
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+        </app-breadcrumb>
+      </div>
+      }
+      <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="card">
+            <div class="header">
+              <h2>Pay In (Deposit) History</h2>
+            </div>
+            <div class="body">           
+                <my-grid [showIndex]="true" [rows]="source" [columns]="columns" 
+                  [copyLongText]="true" (onCopyLongTextAction)="onCopyLongTextAction($event)"
+                  [pagination]="pagination" (onRefresh)="onRefresh($event)">
+                </my-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

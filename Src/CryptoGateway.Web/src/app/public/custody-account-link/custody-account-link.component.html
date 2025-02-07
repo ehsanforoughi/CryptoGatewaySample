@@ -1,0 +1,54 @@
+<div class="row d-flex justify-content-center align-items-center">
+    <div class="col" style="max-width: 470px;">
+        <div class="card mb-3 text-center">
+            <div class="card-header bg-transparent">
+                <img src="assets/images/DGBlockslogo.png" alt="" height="40"/>
+            </div>
+            <div class="card-body">
+                <div style="text-align: center;">
+                    <!-- <ngx-qrcode-styling [config]="config" [data]="qrCodeValue"></ngx-qrcode-styling> -->
+                    <div #canvas></div>
+                </div>
+                <div>
+                    <h5 class="card-title">Scan and deposit USDT</h5>
+                    <h6 class="card-subtitle mt-2 text-muted">Network: {{network}}  -  Crypto: {{currencyType}}</h6>
+                </div>
+                <div class="pt-2">
+                    Wallet address: <span class="border rounded p-1">{{qrCodeValue}}</span>
+                    <a (click)="copy(qrCodeValue)" ngbTooltip="Copy Link">
+                        <span class="material-icons text-info" role="button" style="font-size: small; vertical-align: middle;margin-left: 3px;">content_copy</span>
+                    </a>
+                </div>
+                <form #f="ngForm" (ngSubmit)="submit()">
+                    <div class="mb-3 mt-3">
+                        <input class="form-control" name="contact" #contact="ngModel" [(ngModel)]="contactValue" id="contact" placeholder="Email or Mobile Number (to notify you)">
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" name="txId" id="txId" rows="2" #txId="ngModel" [(ngModel)]="txIdValue" required
+                            placeholder="TxID or Hash (To inform us) e.g.: 68a54c2ccfe13486ee2da53b33a265fa3s267564f8204cab8"></textarea>
+                        <div class="text-danger text-start" *ngIf="txId.touched && !txId.valid">
+                            <span>* After depositing, you should enter the transaction ID (TxID) to inform us.</span>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Inform Us</button>
+                    </div>
+                    <!-- <div class="text-danger mt-2">
+                        <span><strong>Important: </strong><br>After depositing, you should enter the transaction ID (TxID) to inform us.</span>
+                    </div> -->
+                </form>
+            </div>
+            <div class="card-footer bg-transparent text-start">
+                <div>
+                    Important:
+                    <ul class="p-3" style="list-style-type: circle;">
+                        <li class="text-danger">After depositing, you should enter the transaction ID (TxID) to inform us.</li>
+                        <li>This custodial account was created <i>especially</i> for you.</li>
+                        <li>Please do not share this address with anyone for security reasons.</li>
+                        <li>Please pay attention to the type of crypto and the transmission network, otherwise we are not responsible for the destruction of your property.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

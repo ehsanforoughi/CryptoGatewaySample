@@ -1,0 +1,59 @@
+<div class="row d-flex justify-content-center align-items-center">
+    <div class="col" style="max-width: 470px;">
+        <div class="card mb-3 text-center">
+            <div class="card-header bg-transparent">
+                <!-- <img src="assets/images/DGBlockslogo.png" alt="" height="40"/> -->
+                 <h6>Powered by</h6><h2>DGBlocks</h2>
+            </div>
+            <div class="card-body">
+                <div style="text-align: center;">
+                    <!-- <ngx-qrcode-styling [config]="config" [data]="qrCodeValue"></ngx-qrcode-styling> -->
+                    <div #canvas></div>
+                </div>
+                <div>
+                    <h5 class="card-title">Please scan and pay order</h5>
+                    <!-- <h6 class="card-subtitle mt-2 text-muted">Network: {{network}}  -  Crypto: {{currencyType}}</h6> -->
+                </div>
+                <div class="pt-2">
+                    Wallet address: <span class="border rounded p-1">{{qrCodeValue}}</span>
+                    <a (click)="copyWalletAddress(qrCodeValue)" ngbTooltip="Copy Link">
+                        <span class="material-icons text-info" role="button" style="font-size: small; vertical-align: middle;margin-left: 3px;">content_copy</span>
+                    </a>
+                </div>
+                <br>
+                <div class="p-2" style="text-align: left;">
+                    <strong>Amount:</strong> {{ payAmount | number: '1.2-6' }} USDT/TRC20
+                    <a (click)="copyAmount(payAmount)" ngbTooltip="Copy Amount">
+                        <span class="material-icons text-info" role="button" style="font-size: small; vertical-align: middle;margin-left: 3px;">content_copy</span>
+                    </a>
+                    <br>
+                    <strong>Customer Id:</strong> {{ customerId }}
+                    <br>
+                    <strong>Customer contact:</strong> {{ customerContact }}
+                    <br>
+                    <strong>Order Id:</strong> {{ orderId }}
+                    <br>
+                    <strong>Order Desc:</strong> {{ orderDesc }}
+                    <!-- More details -->
+                    <br>
+                </div>
+                <!-- <form #f="ngForm" (ngSubmit)="submit()">
+                    <div class="mb-3 mt-3">
+                        <input class="form-control" name="contact" #contact="ngModel" [(ngModel)]="contactValue" id="contact" placeholder="Email or Mobile Number (to notify you)">
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Confirm</button>
+                    </div>
+                </form> -->
+            </div>
+            <div class="card-footer bg-transparent text-start">
+                <div>
+                    Important:
+                    <ul class="p-3" style="list-style-type: circle;">
+                        <li>Please pay attention to the type of crypto and the transmission network, otherwise we are not responsible for the destruction of your property.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

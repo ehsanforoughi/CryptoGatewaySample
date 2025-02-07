@@ -1,0 +1,6 @@
+@CryptoGateway.Job_HostAddress = http://localhost:5052
+
+GET {{CryptoGateway.Job_HostAddress}}/start/index
+Accept: application/json
+
+###

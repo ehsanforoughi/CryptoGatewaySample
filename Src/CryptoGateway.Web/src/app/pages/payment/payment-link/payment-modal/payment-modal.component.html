@@ -1,0 +1,48 @@
+<div>
+  <h2 mat-dialog-title>Create payment link</h2>
+  <div mat-dialog-content>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmitClick()">
+      <br>
+      <div class="text-inside">
+        <mat-form-field class="example-full-width" appearance="outline" [floatLabel]="getFloatLabelValue()">
+          <mat-label>Customer ID</mat-label>
+          <input matInput placeholder="Customer ID" formControlName="customerId" required>
+        </mat-form-field>
+      </div>
+      <div class="text-inside">
+        <mat-form-field class="example-full-width" appearance="outline" [floatLabel]="getFloatLabelValue()">
+          <mat-label>Customer Contact (Email Or MobileNumber)</mat-label>
+          <input matInput placeholder="Optional" formControlName="customerContact">
+        </mat-form-field>
+      </div>
+      <div class="text-inside">
+        <mat-form-field class="example-full-width" appearance="outline" [floatLabel]="getFloatLabelValue()">
+          <mat-label>Order ID</mat-label>
+          <input matInput placeholder="Optional" formControlName="orderId">
+        </mat-form-field>
+      </div>
+      <div class="text-inside">
+        <mat-form-field class="example-full-width" appearance="outline" [floatLabel]="getFloatLabelValue()">
+          <mat-label>Order description</mat-label>
+          <input matInput placeholder="Optional" formControlName="orderDesc">
+        </mat-form-field>
+      </div>
+      <div class="text-inside">
+        <mat-form-field class="example-full-width" appearance="outline" [floatLabel]="getFloatLabelValue()">
+          <mat-label>Price (IRR)</mat-label>
+          <input matInput placeholder="Optional" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0, align: 'left' }" formControlName="payAmount">
+        </mat-form-field>
+      </div>
+      <div class="text-inside">
+        <mat-form-field class="example-full-width" appearance="outline" [floatLabel]="getFloatLabelValue()">
+          <mat-label>Pay currency</mat-label>
+          <input matInput formControlName="payCurrency" readonly>
+        </mat-form-field>
+      </div>
+      <div class="text-center">
+        <button class="btn-space col-5" type="submit" mat-raised-button color="primary">Confirm</button>
+        <button class="btn-space col-5" type="button" mat-button (click)="closeDialog()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

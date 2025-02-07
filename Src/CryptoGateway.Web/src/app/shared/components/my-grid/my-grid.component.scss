@@ -1,0 +1,67 @@
+@media only screen and (max-width: 576px) {
+    .small-screen {
+      display: block;
+    }
+    .large-screen {
+      display: none;
+    }    
+  }
+  @media only screen and (min-width: 576px) {
+    .small-screen {
+      display: none;
+    }
+    .large-screen {
+      display: block;
+    }
+  }
+
+  // a:hover {
+  //   border: 1px solid #00aef0;
+  //   border-radius: 5px;
+  //   box-sizing:border-box;
+  // }
+
+  .card {
+    border: 1px dashed lightslategrey !important;
+  }
+
+  .img-thumbnail {
+    border-radius: 50% !important;    
+  }
+
+  .tableFixHead { 
+    overflow: auto; 
+    max-height: 600px; 
+  }
+  
+  .tableFixHead thead th { 
+    position: sticky; 
+    top: 0; 
+    z-index: 1;
+  }
+
+/* Just common table stuff. Really. */
+
+  table { 
+    border-collapse: collapse; 
+    width: 100%; 
+  }
+  
+  // th, td { 
+  //   padding: 16px 16px; 
+  // }
+  
+  th {
+    background:#fff;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+.tableFixHead::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.tableFixHead {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}

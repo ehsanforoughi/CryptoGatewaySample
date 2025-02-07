@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ApiKeyGenerator" Version="0.9.5" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.41.0" />
+    <PackageReference Include="Dapper" Version="2.1.28" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.68.0" />
+    <PackageReference Include="KsuidDotNet" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CryptoGateway.DataAccess\CryptoGateway.DataAccess.csproj" />
+    <ProjectReference Include="..\CryptoGateway.DomainService\CryptoGateway.DomainService.csproj" />
+    <ProjectReference Include="..\CryptoGateway.Infrastructure\CryptoGateway.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ExternalWebServices\SunCentre\" />
+    <Folder Include="Models\Auth\" />
+    <Folder Include="Quartz\Jobs\Messaging\" />
+    <Folder Include="Quartz\Jobs\Contract\" />
+    <Folder Include="Strategies\Notification\SmsGateway\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\ServiceMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServiceMessages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\ServiceMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServiceMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
