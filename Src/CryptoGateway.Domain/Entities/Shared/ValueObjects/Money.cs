@@ -57,7 +57,7 @@ public class Money : Value<Money>
                 throw new ArgumentOutOfRangeException(nameof(currencyType), currencyType, null);
         }
     }
-);
+
     public static Money FromDecimal(decimal amount, CurrencyType currencyType) => new(amount, currencyType);
     public static Money FromNotClearAmount(CurrencyType currencyType) => new(0, currencyType);
     public static Money FromNotClearAmount(string currencyType) => new(0, currencyType.ParseCurrencyType());

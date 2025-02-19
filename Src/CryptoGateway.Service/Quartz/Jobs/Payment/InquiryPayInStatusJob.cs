@@ -130,7 +130,7 @@ public class InquiryPayInStatusJob : IJob, IDisposable
         #endregion
 
         var userMessage = ServiceMessages.UserDepositIsDoneMessage
-            .Fill(customerId, FromSun(amount).ToString(), currencyTypeStr);+
+            .Fill(customerId, FromSun(amount).ToString(), currencyTypeStr);
 
         #region Send Notification To User (Email and MobileNumber if available)
         if (!string.IsNullOrWhiteSpace(userEmail))
